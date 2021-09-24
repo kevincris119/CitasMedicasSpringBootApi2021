@@ -34,7 +34,7 @@ public class RolesService implements IRolesService{
 	}
 
 	@Override
-	public Roles Update(Roles roles) {
+	public Roles Actualizar(Roles roles) {
 		// TODO Auto-generated method stub
 		return rolesRepo.save(roles);
 	}

@@ -13,7 +13,7 @@ public interface IRolesService {
 	
 	Roles Guardar(Roles roles);
 	
-	Roles Update(Roles roles);
+	Roles Actualizar(Roles roles);
 	
 	void Eliminar(Integer id);
 }
