@@ -6,35 +6,35 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.CitasMedicas.entity.Roles;
-import com.spring.CitasMedicas.repository.IRolesRepository;
+import com.spring.CitasMedicas.Entity.Rol;
+import com.spring.CitasMedicas.Repository.IRolesRepository;
 
 @Service
-public class RolesService implements IRolesService{
+public class RolService implements IRolService {
 
 	@Autowired
 	private IRolesRepository rolesRepo;
-	
+
 	@Override
-	public List<Roles> ListarTodo() {
+	public List<Rol> ListarTodo() {
 		// TODO Auto-generated method stub
 		return rolesRepo.findAll();
 	}
 
 	@Override
-	public Optional<Roles> ListarPorID(Integer id) {
+	public Optional<Rol> ListarPorID(Integer id) {
 		// TODO Auto-generated method stub
 		return rolesRepo.findById(id);
 	}
 
 	@Override
-	public Roles Guardar(Roles roles) {
+	public Rol Guardar(Rol roles) {
 		// TODO Auto-generated method stub
 		return rolesRepo.save(roles);
 	}
 
 	@Override
-	public Roles Actualizar(Roles roles) {
+	public Rol Actualizar(Rol roles) {
 		// TODO Auto-generated method stub
 		return rolesRepo.save(roles);
 	}

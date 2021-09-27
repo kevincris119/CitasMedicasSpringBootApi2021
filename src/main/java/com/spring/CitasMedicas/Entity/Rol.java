@@ -1,28 +1,24 @@
-package com.spring.CitasMedicas.entity;
+package com.spring.CitasMedicas.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
 
-
-
 @Getter
 @Setter
 @Entity
-@Table(name="roles")
-public class Roles {
-	
+public class Rol {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_roles;
-	
-	@Column(name = "nombre_rol",nullable=false,length = 100)
+	private Integer id_rol;
+
+	@Column(nullable = false, length = 30)
 	private String nombre_rol;
-	
+
 }

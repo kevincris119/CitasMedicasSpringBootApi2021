@@ -1,7 +1,9 @@
 package com.spring.CitasMedicas.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,38 +16,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.CitasMedicas.Entity.Rol;
-import com.spring.CitasMedicas.Service.RolService;
+import com.spring.CitasMedicas.DTO.ProvinciaDTO;
+import com.spring.CitasMedicas.Entity.Provincia;
+import com.spring.CitasMedicas.Service.ProvinciaService;
 
 @RestController
-@RequestMapping("/api/roles")
-public class RolesController {
+@RequestMapping("/api/provincia")
+public class ProvinciaController {
 	@Autowired
-	private RolService rolService;
+	private ModelMapper modelMapper;
+
+	@Autowired
+	private ProvinciaService rolService;
 
 	@GetMapping
-	public ResponseEntity<List<Rol>> ListarTodo() {
-		return ResponseEntity.ok(rolService.ListarTodo());
+	public ResponseEntity<List<ProvinciaDTO>> ListarTodo() {
+
+		return ResponseEntity.ok(rolService.ListarTodo().stream().map(x -> modelMapper.map(x, ProvinciaDTO.class))
+				.collect(Collectors.toList()));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Rol> ListarPorID(@PathVariable("id") Integer id) {
+	public ResponseEntity<Provincia> ListarPorID(@PathVariable("id") Integer id) {
 		return rolService.ListarPorID(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
 	@PostMapping
-	public ResponseEntity<Rol> Guardar(@RequestBody Rol roles) {
+	public ResponseEntity<Provincia> Guardar(@RequestBody Provincia roles) {
 		return new ResponseEntity<>(rolService.Guardar(roles), HttpStatus.CREATED);
 	}
 
 	@PutMapping
-	public ResponseEntity<Rol> Actualizar(@RequestBody Rol roles) {
-		return rolService.ListarPorID(roles.getId_rol()).map(c -> ResponseEntity.ok(rolService.Actualizar(roles)))
+	public ResponseEntity<Provincia> Actualizar(@RequestBody Provincia roles) {
+		return rolService.ListarPorID(roles.getId_provincia()).map(c -> ResponseEntity.ok(rolService.Actualizar(roles)))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Rol> Eliminar(@PathVariable("id") Integer id) {
+	public ResponseEntity<Provincia> Eliminar(@PathVariable("id") Integer id) {
 		return rolService.ListarPorID(id).map(c -> {
 			rolService.Eliminar(id);
 			return ResponseEntity.ok(c);
