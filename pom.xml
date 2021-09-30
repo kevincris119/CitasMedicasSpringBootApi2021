@@ -34,8 +34,14 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+=======
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+>>>>>>> parent of 1ac6a1d (Configuracion Con PostgreSQL)
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
