@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 /*@EnableAutoConfiguration(exclude = {
 	    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
 	})*/
+
 public class CitasMedicasApplication {
 	@Bean
 	public ModelMapper modelMapper() {
