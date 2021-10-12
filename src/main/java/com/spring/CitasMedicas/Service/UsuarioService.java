@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.spring.CitasMedicas.Entity.Usuario;
@@ -21,6 +22,11 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 	public List<Usuario> ListarTodo() {
 		// TODO Auto-generated method stub
 		return usuarioRepository.findAll();
+	}
+	
+	public Usuario ListarPorDni(String dni) {
+		// TODO Auto-generated method stub
+		return usuarioRepository.findByDni(dni);
 	}
 
 	@Override
@@ -48,8 +54,14 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 	}
 
 	@Override
-    public UserDetails loadUserByUsername(String username){
-        return usuarioRepository.findByDni(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+	
+        Usuario user= usuarioRepository.findByDni(username);
+        if(user!=null) {
+        	return user;
+        }else {
+        	throw new UsernameNotFoundException("Usuario:"+username+" No Existe");
+        }
     }
 
 	
