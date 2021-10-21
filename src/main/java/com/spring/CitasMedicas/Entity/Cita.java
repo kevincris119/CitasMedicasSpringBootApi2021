@@ -2,7 +2,6 @@ package com.spring.CitasMedicas.Entity;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,18 +34,18 @@ public class Cita {
 	@Column(nullable = false)
 	private Date fecha_cita;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "id_sede", nullable = false)
 	private Sede sede;
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "id_paciente", nullable = false)
 	private Paciente paciente;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "id_area", nullable = false)
 	private Area area;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "id_hora", nullable = false)
 	private Hora hora;
 }

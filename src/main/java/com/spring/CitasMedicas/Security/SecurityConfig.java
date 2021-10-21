@@ -1,7 +1,6 @@
 package com.spring.CitasMedicas.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,7 +18,6 @@ import com.spring.CitasMedicas.Service.UsuarioService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
 	@Autowired
 	UsuarioService userService;
 
@@ -28,10 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		return bCryptPasswordEncoder;
 	}
-	
+
 	@Bean
 	public DaoAuthenticationProvider authProvider() {
-		DaoAuthenticationProvider authProvider=new DaoAuthenticationProvider();
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userService);
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
@@ -40,9 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-		
+
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	        http
@@ -53,13 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                .antMatchers("/api/usuario").permitAll()
 	                .antMatchers("/swagger-ui/").permitAll()
 	                .antMatchers(HttpMethod.POST,"/users").permitAll()
-	                .antMatchers(HttpMethod.POST,"/api/usuario").permitAll();
+	                .antMatchers(HttpMethod.POST,"/api/usuario").permitAll()
+	                .antMatchers(HttpMethod.GET,"/api/usuario").permitAll();
 	                /*.anyRequest().authenticated().and()
 	                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 	                .addFilter(new JWTAuthorizationFilter(authenticationManager()));*/
 	}
-	
-	
-	
 
 }

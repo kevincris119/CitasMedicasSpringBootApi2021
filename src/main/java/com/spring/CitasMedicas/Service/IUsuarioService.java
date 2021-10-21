@@ -3,6 +3,7 @@ package com.spring.CitasMedicas.Service;
 import java.util.List;
 import java.util.Optional;
 
+import com.spring.CitasMedicas.DTO.Usuario.loginDTO;
 import com.spring.CitasMedicas.Entity.Usuario;
 
 public interface IUsuarioService {
@@ -16,4 +17,5 @@ public interface IUsuarioService {
 	Usuario Actualizar(Usuario usuario);
 
 	void Eliminar(Integer id);
+	List<loginDTO> loginDTO(String dni,String password);
 }

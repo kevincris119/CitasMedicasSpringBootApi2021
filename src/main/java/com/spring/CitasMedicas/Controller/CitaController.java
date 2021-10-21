@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.CitasMedicas.DTO.AreaDTO;
+import com.spring.CitasMedicas.DTO.Cita.citaCreacionDTO;
+import com.spring.CitasMedicas.DTO.Cita.citaDTO;
 import com.spring.CitasMedicas.Entity.Area;
-import com.spring.CitasMedicas.Service.AreaService;
+import com.spring.CitasMedicas.Entity.Cita;
+import com.spring.CitasMedicas.Entity.Hora;
+import com.spring.CitasMedicas.Entity.Paciente;
+import com.spring.CitasMedicas.Entity.Sede;
+import com.spring.CitasMedicas.Service.CitaService;
 
 @RestController
 @RequestMapping("/api/cita")
@@ -27,35 +32,65 @@ public class CitaController {
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private AreaService areaService;
+	private CitaService CitaService;
 
 	@GetMapping
-	public ResponseEntity<List<AreaDTO>> ListarTodo() {
+	public ResponseEntity<List<citaDTO>> ListarTodo() {
 
-		return ResponseEntity.ok(areaService.ListarTodo().stream().map(x -> modelMapper.map(x, AreaDTO.class))
+		return ResponseEntity.ok(CitaService.ListarTodo().stream().map(x -> modelMapper.map(x, citaDTO.class))
 				.collect(Collectors.toList()));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Area> ListarPorID(@PathVariable("id") Integer id) {
-		return areaService.ListarPorID(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	public ResponseEntity<Cita> ListarPorID(@PathVariable("id") Integer id) {
+		return CitaService.ListarPorID(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
 	@PostMapping
-	public ResponseEntity<Area> Guardar(@RequestBody Area area) {
-		return new ResponseEntity<>(areaService.Guardar(area), HttpStatus.CREATED);
+	public ResponseEntity<citaCreacionDTO> Guardar(@RequestBody citaCreacionDTO citaCreacionDTO) {
+		Cita cita=modelMapper.map(citaCreacionDTO, Cita.class);
+		Sede sede=new Sede();
+		sede.setId_sede(citaCreacionDTO.getId_sede());
+		Paciente paciente=new Paciente();
+		paciente.setId_paciente(citaCreacionDTO.getId_paciente());
+		Area area=new Area();
+		area.setId_area(citaCreacionDTO.getId_area());
+		Hora hora=new Hora();
+		hora.setId_hora(citaCreacionDTO.getId_hora());
+		
+		cita.setSede(sede);
+		cita.setPaciente(paciente);
+		cita.setArea(area);
+		cita.setHora(hora);		
+				
+		return new ResponseEntity<>(modelMapper.map(CitaService.Guardar(cita), citaCreacionDTO.class), HttpStatus.CREATED);
 	}
 
-	@PutMapping
-	public ResponseEntity<Area> Actualizar(@RequestBody Area area) {
-		return areaService.ListarPorID(area.getId_area()).map(c -> ResponseEntity.ok(areaService.Actualizar(area)))
+	@PutMapping("/{id}")
+	public ResponseEntity<Cita> Actualizar(@RequestBody citaCreacionDTO citaCreacionDTO,@PathVariable("id") Integer id) {
+		Cita cita=modelMapper.map(citaCreacionDTO, Cita.class);
+		Sede sede=new Sede();
+		sede.setId_sede(citaCreacionDTO.getId_sede());
+		Paciente paciente=new Paciente();
+		paciente.setId_paciente(citaCreacionDTO.getId_paciente());
+		Area area=new Area();
+		area.setId_area(citaCreacionDTO.getId_area());
+		Hora hora=new Hora();
+		hora.setId_hora(citaCreacionDTO.getId_hora());
+		
+		cita.setSede(sede);
+		cita.setPaciente(paciente);
+		cita.setArea(area);
+		cita.setHora(hora);		
+		cita.setId_cita(id);
+		return CitaService.ListarPorID(id).map(c -> ResponseEntity.ok(CitaService.Actualizar(cita)))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Area> Eliminar(@PathVariable("id") Integer id) {
-		return areaService.ListarPorID(id).map(c -> {
-			areaService.Eliminar(id);
+	public ResponseEntity<Cita> Eliminar(@PathVariable("id") Integer id) {
+		return CitaService.ListarPorID(id).map(c -> {
+			CitaService.Eliminar(id);
 			return ResponseEntity.ok(c);
 		}).orElseGet(() -> ResponseEntity.notFound().build());
 	}

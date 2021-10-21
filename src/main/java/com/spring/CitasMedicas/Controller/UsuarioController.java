@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.CitasMedicas.DTO.Usuario.loginCreacionDTO;
+import com.spring.CitasMedicas.DTO.Usuario.loginDTO;
 import com.spring.CitasMedicas.DTO.Usuario.usuarioCreacionDTO;
 import com.spring.CitasMedicas.DTO.Usuario.usuarioDTO;
 import com.spring.CitasMedicas.Entity.Distrito;
@@ -37,11 +39,11 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public void saveUsuario(@RequestBody usuarioCreacionDTO usuarioDTO) {
-		usuarioDTO.setContraseña(bCryptPasswordEncoder.encode(usuarioDTO.getContraseña()));
-		Usuario usuario=modelMapper.map(usuarioDTO, Usuario.class);
+	public void saveUsuario(@RequestBody usuarioCreacionDTO usuarioCreacionDTO) {
+		usuarioCreacionDTO.setContraseña(bCryptPasswordEncoder.encode(usuarioCreacionDTO.getContraseña()));
+		Usuario usuario=modelMapper.map(usuarioCreacionDTO, Usuario.class);
 		Distrito distrito=new Distrito();
-		distrito.setId_distrito(usuarioDTO.getId_distrito());
+		distrito.setId_distrito(usuarioCreacionDTO.getId_distrito());
 		usuario.setDistrito(distrito);
 		Rol rol=new Rol();
 		rol.setId_rol(3);
@@ -57,6 +59,11 @@ public class UsuarioController {
 	@GetMapping("/{username}")
 	public Usuario getUsuario(@PathVariable String username) {
 		return usuarioService.ListarPorDni(username);
+	}
+	
+	@PostMapping("/login")
+	public List<loginDTO> buscarUsuario(@RequestBody loginCreacionDTO loginCreacionDTO) {
+		return usuarioService.loginDTO(loginCreacionDTO.getDni(),loginCreacionDTO.getContraseña());
 	}
 
 }

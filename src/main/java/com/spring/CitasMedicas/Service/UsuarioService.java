@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.spring.CitasMedicas.DTO.Usuario.loginDTO;
 import com.spring.CitasMedicas.Entity.Usuario;
 import com.spring.CitasMedicas.Repository.IUsuarioRepository;
 
@@ -51,6 +52,11 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 	public void Eliminar(Integer id) {
 		// TODO Auto-generated method stub
 		usuarioRepository.deleteById(id);
+	}
+	@Override
+	public List<loginDTO> loginDTO(String dni,String password) {
+		// TODO Auto-generated method stub
+		return usuarioRepository.loginDTO(dni,password);
 	}
 
 	@Override
