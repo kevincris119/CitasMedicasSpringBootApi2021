@@ -22,7 +22,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.CitasMedicas.Entity.Usuario;
 
