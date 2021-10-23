@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.CitasMedicas.DTO.ProvinciaDTO;
+import com.spring.CitasMedicas.Entity.Departamento;
 import com.spring.CitasMedicas.Entity.Provincia;
 import com.spring.CitasMedicas.Service.ProvinciaService;
 
@@ -29,10 +30,18 @@ public class ProvinciaController {
 	@Autowired
 	private ProvinciaService provinciaService;
 
-	@GetMapping
+	/*@GetMapping
 	public ResponseEntity<List<ProvinciaDTO>> ListarTodo() {
 
 		return ResponseEntity.ok(provinciaService.ListarTodo().stream().map(x -> modelMapper.map(x, ProvinciaDTO.class))
+				.collect(Collectors.toList()));
+	}*/
+	@GetMapping("/xDepartamento/{idDepartamento}")
+	public ResponseEntity<List<ProvinciaDTO>>  ListarPorID(@PathVariable("idDepartamento") String idDepartamento) {
+		Departamento departamento=new Departamento();
+		departamento.setId_departamento(idDepartamento);
+		
+		return ResponseEntity.ok(provinciaService.ListarPorDepartamento(departamento).stream().map(x -> modelMapper.map(x, ProvinciaDTO.class))
 				.collect(Collectors.toList()));
 	}
 

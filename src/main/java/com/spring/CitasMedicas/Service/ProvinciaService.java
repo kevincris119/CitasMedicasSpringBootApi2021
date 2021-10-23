@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.CitasMedicas.Entity.Departamento;
 import com.spring.CitasMedicas.Entity.Provincia;
 import com.spring.CitasMedicas.Repository.IProvinciaRepository;
 
@@ -19,6 +20,10 @@ public class ProvinciaService implements IProvinciaService {
 	public List<Provincia> ListarTodo() {
 		// TODO Auto-generated method stub
 		return provinciaRepo.findAll();
+	}
+	public List<Provincia> ListarPorDepartamento(Departamento departamento) {
+		// TODO Auto-generated method stub
+		return provinciaRepo.findByDepartamento(departamento);
 	}
 
 	@Override
