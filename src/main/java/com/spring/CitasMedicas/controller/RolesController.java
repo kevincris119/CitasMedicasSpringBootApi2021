@@ -43,7 +43,6 @@ public class RolesController {
 		return rolService.ListarPorID(roles.getId_rol()).map(c -> ResponseEntity.ok(rolService.Actualizar(roles)))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Rol> Eliminar(@PathVariable("id") Integer id) {
 		return rolService.ListarPorID(id).map(c -> {
