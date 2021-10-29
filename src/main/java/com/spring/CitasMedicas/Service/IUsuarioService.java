@@ -17,5 +17,5 @@ public interface IUsuarioService {
 	Usuario Actualizar(Usuario usuario);
 
 	void Eliminar(Integer id);
-	loginDTO loginDTO(String dni,String password);
+	List<loginDTO> loginDTO(String dni,String password);
 }

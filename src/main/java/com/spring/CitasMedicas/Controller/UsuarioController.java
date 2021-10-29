@@ -62,7 +62,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/login")
-	public loginDTO buscarUsuario(@RequestBody loginCreacionDTO loginCreacionDTO) {
+	public List<loginDTO> buscarUsuario(@RequestBody loginCreacionDTO loginCreacionDTO) {
 		return usuarioService.loginDTO(loginCreacionDTO.getDni(),loginCreacionDTO.getContraseña());
 	}
 
