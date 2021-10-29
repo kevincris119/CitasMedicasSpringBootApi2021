@@ -54,9 +54,9 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 		usuarioRepository.deleteById(id);
 	}
 	@Override
-	public List<loginDTO> loginDTO(String dni,String password) {
+	public List<loginDTO> loginDTO(String dni) {
 		// TODO Auto-generated method stub
-		return usuarioRepository.loginDTO(dni,password);
+		return usuarioRepository.loginDTO(dni);
 	}
 
 	@Override

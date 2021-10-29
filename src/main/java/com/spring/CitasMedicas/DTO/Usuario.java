@@ -44,7 +44,17 @@ public class Usuario {
 
 		private Integer id_distrito;
 	}
+	@Data
+	public static class RespuestaLoginDTO {
 
+		private String nombre;
+
+		private String apellido;
+
+		private String dni;
+
+		private String nombre_rol;
+	}
 	public interface loginDTO { 
 		String getNombre();
 		
@@ -53,6 +63,8 @@ public class Usuario {
 		String getDni();
 
 		String getNombre_rol();
+		
+		String getContraseña();
 	}
 	
 

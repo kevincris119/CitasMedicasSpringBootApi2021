@@ -1,5 +1,6 @@
 package com.spring.CitasMedicas.Controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.CitasMedicas.DTO.Usuario.RespuestaLoginDTO;
 import com.spring.CitasMedicas.DTO.Usuario.loginCreacionDTO;
-import com.spring.CitasMedicas.DTO.Usuario.loginDTO;
 import com.spring.CitasMedicas.DTO.Usuario.usuarioCreacionDTO;
 import com.spring.CitasMedicas.DTO.Usuario.usuarioDTO;
 import com.spring.CitasMedicas.Entity.Distrito;
@@ -30,22 +31,21 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
-	private ModelMapper modelMapper;	
-	
+	private ModelMapper modelMapper;
 
-	public UsuarioController(UsuarioService usuarioService,BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public UsuarioController(UsuarioService usuarioService, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.usuarioService = usuarioService;
-		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
-	
+
 	@PostMapping
 	public void saveUsuario(@RequestBody usuarioCreacionDTO usuarioCreacionDTO) {
 		usuarioCreacionDTO.setContraseña(bCryptPasswordEncoder.encode(usuarioCreacionDTO.getContraseña()));
-		Usuario usuario=modelMapper.map(usuarioCreacionDTO, Usuario.class);
-		Distrito distrito=new Distrito();
+		Usuario usuario = modelMapper.map(usuarioCreacionDTO, Usuario.class);
+		Distrito distrito = new Distrito();
 		distrito.setId_distrito(usuarioCreacionDTO.getId_distrito());
 		usuario.setDistrito(distrito);
-		Rol rol=new Rol();
+		Rol rol = new Rol();
 		rol.setId_rol(3);
 		usuario.setRol(rol);
 		usuarioService.Guardar(usuario);
@@ -56,14 +56,23 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.ListarTodo().stream().map(x -> modelMapper.map(x, usuarioDTO.class))
 				.collect(Collectors.toList()));
 	}
+
 	@GetMapping("/{username}")
 	public Usuario getUsuario(@PathVariable String username) {
 		return usuarioService.ListarPorDni(username);
 	}
-	
+
 	@PostMapping("/login")
-	public List<loginDTO> buscarUsuario(@RequestBody loginCreacionDTO loginCreacionDTO) {
-		return usuarioService.loginDTO(loginCreacionDTO.getDni(),loginCreacionDTO.getContraseña());
+	public List<RespuestaLoginDTO> buscarUsuario(@RequestBody loginCreacionDTO loginCreacionDTO) {
+		var usuario=usuarioService.loginDTO(loginCreacionDTO.getDni());
+		List<RespuestaLoginDTO> buscarUsuario=usuarioService.loginDTO(loginCreacionDTO.getDni()).stream().map(x -> modelMapper.map(x, RespuestaLoginDTO.class))
+		.collect(Collectors.toList());
+		if (bCryptPasswordEncoder.matches(loginCreacionDTO.getContraseña(), usuario.get(0).getContraseña())) {
+			return buscarUsuario;
+		} else {
+			List<RespuestaLoginDTO> respuestaDTO =Arrays.asList() ;
+			return respuestaDTO;
+		}
 	}
 
 }
