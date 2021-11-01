@@ -45,7 +45,6 @@ public class PacienteController {
 	public ResponseEntity<Paciente> Guardar(@RequestBody Paciente paciente) {
 		return new ResponseEntity<>(pacienteService.Guardar(paciente), HttpStatus.CREATED);
 	}
-
 	@PutMapping
 	public ResponseEntity<Paciente> Actualizar(@RequestBody Paciente paciente) {
 		return pacienteService.ListarPorID(paciente.getId_paciente()).map(c -> ResponseEntity.ok(pacienteService.Actualizar(paciente)))
