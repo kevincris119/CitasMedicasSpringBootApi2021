@@ -51,7 +51,6 @@ public class PersonalController {
 	public ResponseEntity<Personal> ListarPorID(@PathVariable("id") Integer id) {
 		return personalService.ListarPorID(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
-
 	@PostMapping
 	public ResponseEntity<personalCreacionDTO> Guardar(@RequestBody personalCreacionDTO personalCreacionDTO) {
 		
