@@ -66,8 +66,16 @@ public class PersonalController {
 		return new ResponseEntity<>(modelMapper.map(personalService.Guardar(personal), com.spring.CitasMedicas.DTO.Personal.personalCreacionDTO.class), HttpStatus.CREATED);
 	}
 
-	@PutMapping
-	public ResponseEntity<Personal> Actualizar(@RequestBody Personal personal) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Personal> Actualizar(@RequestBody personalCreacionDTO personalCreacionDTO,@PathVariable("id") Integer id) {
+		Personal personal=modelMapper.map(personalCreacionDTO, Personal.class);
+		Usuario usuario=new Usuario();
+		Area area=new Area();
+		usuario.setId_usuario(personalCreacionDTO.getId_usuario());
+		area.setId_area(personalCreacionDTO.getId_area());
+		personal.setUsuario(usuario);
+		personal.setArea(area);	
+		personal.setId_personal(id);
 		return personalService.ListarPorID(personal.getId_personal()).map(c -> ResponseEntity.ok(personalService.Actualizar(personal)))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
