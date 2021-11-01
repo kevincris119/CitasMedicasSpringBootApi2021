@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.CitasMedicas.DTO.Personal.personalCreacionDTO;
+import com.spring.CitasMedicas.DTO.Personal.personalDTO;
+import com.spring.CitasMedicas.Entity.Area;
 import com.spring.CitasMedicas.Entity.Personal;
 import com.spring.CitasMedicas.Entity.Usuario;
 import com.spring.CitasMedicas.Service.PersonalService;
@@ -31,7 +34,9 @@ public class PersonalController {
 
 	@GetMapping
 	public ResponseEntity<List<Personal>> ListarTodo() {
-
+		List<Personal> list=personalService.ListarTodo();
+		List<personalDTO> listDTO=personalService.ListarTodo().stream().map(x -> modelMapper.map(x, personalDTO.class)).collect(Collectors.toList());
+	
 		return ResponseEntity.ok(personalService.ListarTodo().stream().map(x -> modelMapper.map(x, Personal.class))
 				.collect(Collectors.toList()));
 	}
@@ -48,8 +53,17 @@ public class PersonalController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Personal> Guardar(@RequestBody Personal personal) {
-		return new ResponseEntity<>(personalService.Guardar(personal), HttpStatus.CREATED);
+	public ResponseEntity<personalCreacionDTO> Guardar(@RequestBody personalCreacionDTO personalCreacionDTO) {
+		
+		Personal personal=modelMapper.map(personalCreacionDTO, Personal.class);
+		Usuario usuario=new Usuario();
+		Area area=new Area();
+		usuario.setId_usuario(personalCreacionDTO.getId_usuario());
+		area.setId_area(personalCreacionDTO.getId_area());
+		personal.setUsuario(usuario);
+		personal.setArea(area);		
+		
+		return new ResponseEntity<>(modelMapper.map(personalService.Guardar(personal), com.spring.CitasMedicas.DTO.Personal.personalCreacionDTO.class), HttpStatus.CREATED);
 	}
 
 	@PutMapping

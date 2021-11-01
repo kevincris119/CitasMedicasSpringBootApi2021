@@ -1,6 +1,5 @@
 package com.spring.CitasMedicas.Entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,10 +26,11 @@ public class Personal {
 	@Column(nullable = false, length = 100)
 	private String categoria;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@JoinColumn(name = "id_usuario", nullable = false)
 	private Usuario usuario;
-	@ManyToOne(cascade = { CascadeType.ALL })
+	
+	@ManyToOne
 	@JoinColumn(name = "id_area", nullable = false)
 	private Area area;
 }

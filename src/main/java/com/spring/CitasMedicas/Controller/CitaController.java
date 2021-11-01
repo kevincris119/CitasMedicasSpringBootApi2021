@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.CitasMedicas.DTO.Cita.citaCreacionDTO;
-import com.spring.CitasMedicas.DTO.Cita.citaDTO;
+import com.spring.CitasMedicas.DTO.Cita.CitaCreacionDTO;
+import com.spring.CitasMedicas.DTO.Cita.CitaDTO;
 import com.spring.CitasMedicas.Entity.Area;
 import com.spring.CitasMedicas.Entity.Cita;
 import com.spring.CitasMedicas.Entity.Hora;
@@ -35,9 +35,10 @@ public class CitaController {
 	private CitaService CitaService;
 
 	@GetMapping
-	public ResponseEntity<List<citaDTO>> ListarTodo() {
-
-		return ResponseEntity.ok(CitaService.ListarTodo().stream().map(x -> modelMapper.map(x, citaDTO.class))
+	public ResponseEntity<List<CitaDTO>> ListarTodo() {
+		List<Cita> listCita=CitaService.ListarTodo();
+		List<CitaDTO> listCitaDTO=CitaService.ListarTodo().stream().map(x -> modelMapper.map(x, CitaDTO.class)).collect(Collectors.toList());
+		return ResponseEntity.ok(CitaService.ListarTodo().stream().map(x -> modelMapper.map(x, CitaDTO.class))
 				.collect(Collectors.toList()));
 	}
 
@@ -47,7 +48,7 @@ public class CitaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<citaCreacionDTO> Guardar(@RequestBody citaCreacionDTO citaCreacionDTO) {
+	public ResponseEntity<CitaCreacionDTO> Guardar(@RequestBody CitaCreacionDTO citaCreacionDTO) {
 		Cita cita=modelMapper.map(citaCreacionDTO, Cita.class);
 		Sede sede=new Sede();
 		sede.setId_sede(citaCreacionDTO.getId_sede());
@@ -63,11 +64,11 @@ public class CitaController {
 		cita.setArea(area);
 		cita.setHora(hora);		
 				
-		return new ResponseEntity<>(modelMapper.map(CitaService.Guardar(cita), citaCreacionDTO.class), HttpStatus.CREATED);
+		return new ResponseEntity<>(modelMapper.map(CitaService.Guardar(cita), CitaCreacionDTO.class), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Cita> Actualizar(@RequestBody citaCreacionDTO citaCreacionDTO,@PathVariable("id") Integer id) {
+	public ResponseEntity<Cita> Actualizar(@RequestBody CitaCreacionDTO citaCreacionDTO,@PathVariable("id") Integer id) {
 		Cita cita=modelMapper.map(citaCreacionDTO, Cita.class);
 		Sede sede=new Sede();
 		sede.setId_sede(citaCreacionDTO.getId_sede());

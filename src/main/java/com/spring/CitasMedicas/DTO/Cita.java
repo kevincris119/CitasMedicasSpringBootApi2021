@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class Cita {
 	@Data
-	public static class citaDTO {
+	public static class CitaDTO {
 
 		private Integer id_cita;
 		private Date fecha_registro;
@@ -25,7 +25,7 @@ public class Cita {
 	}
 
 	@Data
-	public static class citaCreacionDTO {
+	public static class CitaCreacionDTO {
 
 		private Date fecha_registro;
 		private String comentario;
