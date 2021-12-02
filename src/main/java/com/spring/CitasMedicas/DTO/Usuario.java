@@ -58,6 +58,7 @@ public class Usuario {
 		private Integer Id_Paciente;
 	}
 	public interface loginDTO { 
+		
 		String getNombre();
 		
 		String getApellido();
