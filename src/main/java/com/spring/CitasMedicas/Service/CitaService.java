@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.CitasMedicas.Entity.Cita;
+import com.spring.CitasMedicas.Entity.Paciente;
 import com.spring.CitasMedicas.Repository.ICitaRepository;
 
 @Service
@@ -43,6 +44,10 @@ public class CitaService implements ICitaService {
 	public void Eliminar(Integer id) {
 		// TODO Auto-generated method stub
 		citaRepo.deleteById(id);
+	}
+	public List<Cita> ListarxPaciente(Paciente paciente) {
+		// TODO Auto-generated method stub
+		return citaRepo.findByPaciente(paciente);
 	}
 
 }

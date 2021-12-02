@@ -95,4 +95,11 @@ public class CitaController {
 			return ResponseEntity.ok(c);
 		}).orElseGet(() -> ResponseEntity.notFound().build());
 	}
+	@GetMapping("listarxPaciente/{idPaciente}")
+	public ResponseEntity<List<CitaDTO>> ListarxPaciente(@PathVariable("idPaciente") Integer idPaciente) {
+		Paciente paciente=new Paciente();
+		paciente.setId_paciente(idPaciente);
+		return ResponseEntity.ok(CitaService.ListarxPaciente(paciente).stream().map(x -> modelMapper.map(x, CitaDTO.class))
+				.collect(Collectors.toList()));
+	}
 }
