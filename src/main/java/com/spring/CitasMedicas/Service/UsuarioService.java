@@ -14,7 +14,7 @@ import com.spring.CitasMedicas.Entity.Usuario;
 import com.spring.CitasMedicas.Repository.IUsuarioRepository;
 
 @Service
-public class UsuarioService implements IUsuarioService,UserDetailsService {
+public class UsuarioService implements IUsuarioService, UserDetailsService {
 
 	@Autowired
 	private IUsuarioRepository usuarioRepository;
@@ -24,10 +24,14 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 		// TODO Auto-generated method stub
 		return usuarioRepository.findAll();
 	}
-	
+
 	public Usuario ListarPorDni(String dni) {
 		// TODO Auto-generated method stub
 		return usuarioRepository.findByDni(dni);
+	}
+
+	public Boolean existsByNombreUsuario(String dni) {
+		return usuarioRepository.existsByDni(dni);
 	}
 
 	@Override
@@ -53,6 +57,7 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 		// TODO Auto-generated method stub
 		usuarioRepository.deleteById(id);
 	}
+
 	@Override
 	public List<loginDTO> loginDTO(String dni) {
 		// TODO Auto-generated method stub
@@ -60,16 +65,14 @@ public class UsuarioService implements IUsuarioService,UserDetailsService {
 	}
 
 	@Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-	
-        Usuario user= usuarioRepository.findByDni(username);
-        if(user!=null) {
-        	return user;
-        }else {
-        	throw new UsernameNotFoundException("Usuario:"+username+" No Existe");
-        }
-    }
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-	
+		Usuario user = usuarioRepository.findByDni(username);
+		if (user != null) {
+			return user;
+		} else {
+			throw new UsernameNotFoundException("Usuario:" + username + " No Existe");
+		}
+	}
 
 }

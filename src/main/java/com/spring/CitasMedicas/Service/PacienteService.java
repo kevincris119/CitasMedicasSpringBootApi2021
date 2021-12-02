@@ -28,9 +28,9 @@ public class PacienteService implements IPacienteService {
 	}
 
 	@Override
-	public Paciente Guardar(Paciente area) {
+	public Paciente Guardar(Paciente paciente) {
 		// TODO Auto-generated method stub
-		return pacienteRepo.save(area);
+		return pacienteRepo.save(paciente);
 	}
 
 	@Override

@@ -54,6 +54,8 @@ public class Usuario {
 		private String dni;
 
 		private String nombre_rol;
+		
+		private Integer Id_Paciente;
 	}
 	public interface loginDTO { 
 		String getNombre();
@@ -65,6 +67,8 @@ public class Usuario {
 		String getNombre_rol();
 		
 		String getContraseña();
+		
+		Integer getId_Paciente();
 	}
 	
 
